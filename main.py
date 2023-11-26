@@ -2,7 +2,8 @@ import nltk
 import random
 from nltk.corpus import names
 from sklearn.model_selection import train_test_split
-
+from nltk.classify import NaiveBayesClassifier
+from sklearn.metrics import accuracy_score, classification_report
 
 # Download NLTK data
 nltk.download('names')
@@ -24,12 +25,17 @@ featuresets = [(gender_features(n), gender) for (n, gender) in labeled_names]
 # Split the dataset into training and testing sets
 train_set, test_set = train_test_split(featuresets, test_size=0.2, random_state=42)
 
-# Train a logistic regression classifier
-classifier = nltk.NaiveBayesClassifier.train(train_set)
+# Train a Naive Bayes classifier
+classifier = NaiveBayesClassifier.train(train_set)
 
 # Evaluate the classifier
 accuracy = nltk.classify.accuracy(classifier, test_set)
 print(f"Accuracy: {accuracy:.2%}")
+
+# Print the classification report
+predicted_labels = [classifier.classify(features) for features, label in test_set]
+true_labels = [label for features, label in test_set]
+print("\nClassification Report:\n", classification_report(true_labels, predicted_labels))
 
 # Test the model
 names_to_test = ["John", "Jane", "Emma", "David", "Diana", "Michael", "Michelle"]
