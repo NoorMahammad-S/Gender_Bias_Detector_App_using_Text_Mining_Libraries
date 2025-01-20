@@ -47,4 +47,3 @@ text_to_analyze = "The nurse brought the medication to the patient."
 detected_gender = detect_gender_bias(text_to_analyze)
 print(f"Detected gender bias: {detected_gender}")
 ```
-
